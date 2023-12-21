@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="new.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="box">
+            <div class="bttn-box">
+                <div class="btn"></div>
+                <button type="button" class="toggle-btn"><a href="signup.html">Sign Up</a></button>
+                <button type="button" class="toggle-btn"><a href="signin.html">Sign In</a></button>
+            </div>
+            <form id="signin" onsubmit="handleSubmit(event)">
+                <div class="box-field">
+                    <br>
+                    <div class="input">
+                        <label for="email">Email</label>
+                        <input type="email" name="Email" id="email" placeholder="Your Email Address..." required>
+                    </div>
+                    <br>
+                    <div class="input">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Your password ..." required>
+                    </div>
+                    <br><br>
+                </div>
+                <div class="bttn">
+                    <input type="submit" value="Login">
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault(); // Prevent from submission
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+            console.log("email :", email);
+            console.log("password :", password);
+            let obj = {
+                "email": email,
+                "password": password
+            };
+            console.log("Obj :" + JSON.stringify(obj));
+            if (localStorage.getItem("db") === null) {
+                window.alert("Please register yourself!");
+            } else {
+                let dbData = localStorage.getItem("db");
+                let parsedData = JSON.parse(dbData);
+                let email = obj.email;
+                let password = obj.password;
+                let isSuccessFullLogin = false;
+                let isEmailRegistered = false;
+                for (let i in parsedData) {
+                    if (parsedData[i]["email"] === email) {
+                        isEmailRegistered = true;
+                        if (parsedData[i]["password"] === password) {
+                            data = parsedData[i];
+                            isSuccessFullLogin = true;
+                        }
+                    }
+                }
+                if (isSuccessFullLogin) {
+                    window.alert("Login Successful !!!")
+                } else if (isEmailRegistered) {
+                    window.alert("Incorrect email and Password. Please try again!");
+                } else {
+                    window.alert("Please register yourself!");
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

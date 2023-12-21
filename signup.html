@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="new.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="box">
+            <div class="bttn-box">
+                <div class="btn"></div>
+                <button type="button" class="toggle-btn"><a href="signup.html">Sign Up</a></button>
+                <button type="button" class="toggle-btn"><a href="signin.html">Sign In</a></button>
+            </div>
+            <form id="signup" onsubmit="handleSubmit()">
+                <div class="box-field">
+                    <div class="input">
+                        <label for="name">First Name</label>
+                        <input type="text" maxlength="15" id="fname" placeholder="Your First Name..." required>
+                    </div>
+                    <br>
+                    <div class="input">
+                        <label for="name">Last Name</label>
+                        <input type="text" maxlength="15" id="lname" placeholder="Your Last Name..." required>
+                    </div>
+                    <br>
+                    <div class="input">
+                        <label for="email">Email</label>
+                        <input type="email" name="Email" id="email" placeholder="Your Email Address..." required>
+                    </div>
+                    <br>
+                    <div class="input">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Your password ..." required>
+                    </div>
+                    <br>
+
+                </div>
+                <div class="bttn">
+
+                    <input type="submit" value="Sign up">
+                </div>
+            </form>1`
+        </div>
+    </div>
+
+    <script>
+        // console.log("Start of the Script");
+
+        function handleSubmit() {
+            let fname = document.getElementById('fname').value; //access from dom
+            let lname = document.getElementById('lname').value;
+            let email = document.getElementById('email').value;
+            let password = document.getElementById('password').value;
+
+            console.log('First Name: ', fname);
+            console.log('Last Name: ', lname);
+            console.log('Email: ', email);
+            console.log('Password: ', password);
+            let obj = {
+                "firstName": fname,
+                "lastName": lname,
+                "email": email,
+                "password": password
+            };
+            // console.log("obj: ", obj);
+            if (localStorage.getItem("db") === null) {
+                let arr = [];
+                arr.push(obj);
+                let data = JSON.stringify(arr);
+                localStorage.setItem("db", data);
+                window.alert("Successfully Registered.");
+            } else {
+                let data = localStorage.getItem("db");
+                let parseData = JSON.parse(data);
+                let flag = false;
+
+                for (let i in parseData) {
+                    if (parseData[i]["email"] === email) { // Accessing email using key method of object
+                        flag = true;
+                    }
+                }
+                if (flag) {
+                    window.alert("User Already Exist!!");
+                } else {
+                    parseData.push(obj); ////[{user1}, {user2}]
+                    let newData = JSON.stringify(parseData);
+                    localStorage.setItem("db", newData);
+                    window.alert("Successfully Registered!");
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
